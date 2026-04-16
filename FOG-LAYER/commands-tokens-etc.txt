@@ -1,0 +1,42 @@
+export INFLUXDB_TOKEN=JpuC3283pA74Zk07GnVb0voiOupL2WjSrZ2NDt-qFFlAeFaZ0-rIGXVVc70gVWVbNLYFwC63dgXXr8MNkKzHAA==
+
+ec2-3-8-28-215.eu-west-2.compute.amazonaws.com
+
+
+SELECT * FROM 'solar/#'
+
+
+7ZUVwGHMDqfl8vqFlcRmhrhUippM-F_CcLI_9SIke9nnNYxA92KcGtP1IoTlrg7F9ZbqcnGWgT9Hca1-vsb7vw==
+
+curl -X POST "http://127.0.0.1:8086/api/v2/write?org=SOLAR-FOG&bucket=metrics&precision=s" -H "Authorization: Token kbURS3e9ndqfmTBulFEw8xccCecuUshg6MSELSAKCdJ2nG9o12OKQpH5hm5PGvMUd9N1GX__uWG2NjpONB7bwQ==" -H "Content-Type: text/plain; charset=utf-8" --data-raw "test_measurement,node_id=test value=1i"
+
+INFLUX_URL='http://10.0.40.101:8086' INFLUX_TOKEN='kbURS3e9ndqfmTBulFEw8xccCecuUshg6MSELSAKCdJ2nG9o12OKQpH5hm5PGvMUd9N1GX__uWG2NjpONB7bwQ==' INFLUX_ORG='NEO-SOLAR' INFLUX_INPUT_BUCKET='metrics' INFLUX_OUTPUT_BUCKET='inference' INFLUX_INPUT_MEASUREMENT='solar_rtu' /home/Monke/Documents/Project/RTU/Datasets/SIH-RTU-Sim/.venv/bin/python src/fog_influx_logreg_pipeline.py --once --log-level DEBUG
+
+
+curl -sS -H "Authorization: Token aMX4JabYmu-ZJS3GRiy6XmSOyrBm8WKfqOgKObnG77dAtwDpxZ_o13ZoBfncHkQCHVO63ltOg24qWvK4CYiZ8Q==" \
+  "localhost:8086/api/v2/buckets?org=NEO-SOLAR" | jq -r '.buckets[].name'
+  
+  # B) list distinct fields present
+curl -sS -X POST "http://10.0.40.101:8086/api/v2/query?org=NEO-SOLAR" \
+  -H "Authorization: Token aMX4JabYmu-ZJS3GRiy6XmSOyrBm8WKfqOgKObnG77dAtwDpxZ_o13ZoBfncHkQCHVO63ltOg24qWvK4CYiZ8Q==" \
+  -H "Content-Type: application/vnd.flux" \
+  --data-binary 'from(bucket:"metrics") |> range(start:-2h) |> filter(fn:(r)=>r._measurement=="solar_rtu") |> keep(columns:["_field"]) |> distinct(column:"_field")'
+  
+  aMX4JabYmu-ZJS3GRiy6XmSOyrBm8WKfqOgKObnG77dAtwDpxZ_o13ZoBfncHkQCHVO63ltOg24qWvK4CYiZ8Q==
+  
+  python publish_fog_to_iot.py \
+  --influx-url http://10.0.40.101:8086 \
+  --influx-token "aMX4JabYmu-ZJS3GRiy6XmSOyrBm8WKfqOgKObnG77dAtwDpxZ_o13ZoBfncHkQCHVO63ltOg24qWvK4CYiZ8Q==" \
+  --influx-org NEO-SOLAR \
+  --metrics-bucket metrics \
+  --l2-bucket inferences \
+  --mqtt-host a2i2can38qdenj-ats.iot.eu-west-2.amazonaws.com \
+  --mqtt-port 8883 \
+  --use-tls \
+  --ca-cert AmazonRootCA1.pem \
+  --client-cert ec2.cert.pem \
+  --client-key ec2.private.key
+  
+  
+ python src/fog_influx_logreg_pipeline.py --log-level DEBUG
+

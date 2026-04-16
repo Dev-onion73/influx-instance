@@ -44,7 +44,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--influx-org", default=os.getenv("INFLUXDB_ORG"), help="InfluxDB org name")
 
     parser.add_argument("--input-bucket", default=os.getenv("INFLUX_INPUT_BUCKET", "metrics"))
-    parser.add_argument("--output-bucket", default=os.getenv("INFLUX_OUTPUT_BUCKET", "inferences"))
+    parser.add_argument("--output-bucket", default=os.getenv("INFLUX_OUTPUT_BUCKET", "inference"))
 
     parser.add_argument(
         "--input-measurement",
