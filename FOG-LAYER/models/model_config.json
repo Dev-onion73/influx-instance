@@ -1,0 +1,23 @@
+{
+  "feature_cols": [
+    "PR",
+    "TEMP_DELTA",
+    "DC_AC_RATIO",
+    "PR_ROLL_MEAN",
+    "PR_ROLL_STD",
+    "TEMP_DELTA_SIGMA"
+  ],
+  "removed_leak_features": [
+    "PR_DEV",
+    "PR_SLOPE"
+  ],
+  "roc_auc_full": 0.9617266902504984,
+  "avg_precision": 0.9501033024944444,
+  "brier_score": 0.21460701032048168,
+  "threshold_best_f1": 0.05,
+  "threshold_high_recall": 0.05,
+  "recommended_threshold": 0.05,
+  "split_strategy": "cross_plant",
+  "image_scores_status": "Removed as model bias shifts towards the synthetic data",
+  "note": "Retrain after adding image scores with real YOLO scores"
+}

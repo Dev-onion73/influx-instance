@@ -11,18 +11,9 @@ services:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
       - DOCKER_INFLUXDB_INIT_PASSWORD=admin12345
-      - DOCKER_INFLUXDB_INIT_ORG=solar
-      - DOCKER_INFLUXDB_INIT_BUCKET=solar_data
+      - DOCKER_INFLUXDB_INIT_ORG=NEO-SOLAR
+      - DOCKER_INFLUXDB_INIT_BUCKET=metrics
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-token
-    restart: unless-stopped
-
-  telegraf:
-    image: telegraf:latest
-    container_name: telegraf
-    depends_on:
-      - influxdb
-    volumes:
-      - ../telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     restart: unless-stopped
 
 volumes:

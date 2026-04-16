@@ -1,0 +1,16 @@
+awscrt==0.31.3
+awsiotsdk @ file:influx/connect_device_package/aws-iot-device-sdk-python-v2
+certifi==2026.2.25
+influxdb-client==1.50.0
+joblib==1.5.3
+numpy==2.4.4
+paho-mqtt==2.1.0
+pandas==3.0.2
+python-dateutil==2.9.0.post0
+reactivex==4.1.0
+scikit-learn==1.8.0
+scipy==1.17.1
+six==1.17.0
+threadpoolctl==3.6.0
+typing_extensions==4.15.0
+urllib3==2.6.3
